@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Files Controllers</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"> </script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.6.0/js/bootstrap.js}"></script>
+</head>
+<body>
+<div>
+    <p th:if="${message != null}" th:text="${message}"></p>
+</div>
+    <div class="text-center rounded border border-dark" style="margin: 50px auto; max-width: 500px;">
+        <form action="/files/upload"
+              enctype="multipart/form-data" method="post">
+            <input type="file" name="file"> <br>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+
+</body>
+</html>
