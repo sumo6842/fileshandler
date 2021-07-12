@@ -4,22 +4,33 @@
     <meta charset="UTF-8">
     <title>Files Controllers</title>
 
+    <link rel="stylesheet" th:href="@{/font-awesome/all.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
 
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"> </script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/4.6.0/js/bootstrap.js}"></script>
 </head>
 <body>
-<div>
+<div class="text-center">
     <p th:if="${message != null}" th:text="${message}"></p>
 </div>
-    <div class="text-center rounded border border-dark" style="margin: 50px auto; max-width: 500px;">
-        <form action="/files/upload"
-              enctype="multipart/form-data" method="post">
-            <input type="file" name="file"> <br>
-            <input type="submit" value="Upload">
-        </form>
-    </div>
+
+<div th:if="${files != null}" class="border-primary rounded">
+    <th:block th:each="file : ${files}">
+        <span>
+            <img th:src="@{/images/file.png}"/>
+            <small th:text="file.name"></small>
+        </span>
+    </th:block>
+</div>
+
+<div class="text-center rounded border border-dark" style="margin: 50px auto; max-width: 500px;">
+    <form action="/files/upload"
+          enctype="multipart/form-data" method="post">
+        <input type="file" name="file"> <br>
+        <input type="submit" value="Upload">
+    </form>
+</div>
 
 </body>
 </html>
