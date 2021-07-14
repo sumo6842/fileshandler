@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties({FileMvcConfig.class})
 public class FilesHandlerApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(FilesHandlerApplication.class, args);
     }

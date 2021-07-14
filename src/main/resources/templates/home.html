@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Files Controllers</title>
+
+    <link rel="stylesheet" th:href="@{/font-awesome/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}">
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.6.0/js/bootstrap.js}"></script>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="text-center">
+        <p th:if="${message != null}" th:text="${message}" class="text-info"></p>
+    </div>
+
+    <div class="border-primary rounded m-3">
+        <div th:if=" ${files !=null}" class="row m-2">
+            <th:block th:each="file : ${files}">
+                <div class="col text-center">
+                    <div>
+                        <img th:src="@{/images/file.png}"
+                             style="max-width: 50px; max-height:50px;"/>
+                    </div>
+
+                    <div>
+                        <a th:href="@{'/download/file?id=' + ${file.id}}">[[${file.name}]]</a>
+                        <p>size: [[${#numbers.formatInteger(file.size, 4, 'COMMA')}]] bytes</p>
+                    </div>
+                </div>
+
+            </th:block>
+        </div>
+    </div>
+    <div class="text-center rounded border border-dark"
+         style="margin: 50px auto; max-width: 500px;">
+        <form action="/files/db"
+              enctype="multipart/form-data" method="post">
+            <input type="file" name="file" required> <br>
+            <input type="submit" value="Upload" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

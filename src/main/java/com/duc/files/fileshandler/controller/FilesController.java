@@ -6,16 +6,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class FilesController {
@@ -29,15 +28,18 @@ public class FilesController {
 
     @GetMapping("/upload")
     public String showUriFile(Model model) throws IOException {
-        model.addAttribute("files",
-                services.loadAll().map(path -> MvcUriComponentsBuilder.fromMethodName(
-                            FilesController.class, "loadFile", path.getFileName().toString()
-                        ).build().toUri().toString()
-                ).collect(Collectors.toList()));
+        model.addAttribute("files", getUri().collect(Collectors.toList()));
         return "index";
     }
 
-    @GetMapping("download/{filename:.+}")
+    private Stream<String> getUri() throws IOException {
+        return services.loadAll().map(path -> MvcUriComponentsBuilder
+                .fromMethodName(FilesController.class, "loadFile",
+                        path.getFileName().toString())
+                .build().toUri().toString());
+    }
+
+    @GetMapping("/download/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> loadFile(@PathVariable String filename) throws IOException {
         var resource = services.loadFileAsResource(filename);
